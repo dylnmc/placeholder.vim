@@ -47,7 +47,7 @@ imap <m-;> <plug>(placeholder)
 
 " use vim-plug <https://github.com/junegunn/vim-plug> to install placeholder.vim
 call plug#begin(printf('%s/%s/plugged', $HOME, has('nvim') ? '.config/nvim' :
-\ (has('win32') || has('win64')) ? 'vimfiles' : '.vim')
+\ (has('win32') || has('win64')) ? 'vimfiles' : '.vim'))
 Plug 'dylnmc/placeholder.vim'
 Plug 'tpope/vim-repeat'
 " ...
