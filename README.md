@@ -6,6 +6,9 @@
 
 As you can see, this is very simple yet very powerful.
 
+**Important**: If you want the dot operator (repeating) to work, you need to
+also install [vim-repeat](https://github.com/tpope/vim-repeat/)!
+
 ## Example Vimrc
 
 This is how I like to configure this plugin in my vimrc:
@@ -46,6 +49,7 @@ imap <m-;> <plug>(placeholder)
 call plug#begin(printf('%s/%s/plugged', $HOME, has('nvim') ? '.config/nvim' :
 \ (has('win32') || has('win64')) ? 'vimfiles' : '.vim')
 Plug 'dylnmc/placeholder.vim'
+Plug 'tpope/vim-repeat'
 " ...
 call plug#end()
 ```
