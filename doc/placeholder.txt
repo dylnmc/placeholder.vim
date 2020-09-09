@@ -1,0 +1,158 @@
+*placeholder.txt*            Placeholders done right             *placeholder*
+
+       ____   _                    _             _      _             ~
+      |* _ \ |*|  __ _   ___  ___ |*|__    ___  |*|  __|*|  ___  _ __ ~
+      |*|_) ||*| /*_`*| /*__|/*_*\|*'_*\  /*_*\ |*| /*_`*| /*_*\|*'__|~
+      |* __/ |*||*(_|*||*(__| *__/|*| |*||*(_)*||*||*(_|*||**__/|*|   ~
+      |_|    |_| \__,_| \___|\___||_| |_| \___/ |_| \__,_| \___||_|   ~
+                                      ~
+                               By Dylan McClure ~
+                               dylnmc at gmail  ~
+
+==============================================================================
+Placeholder Table of Contents                                *placeholder-toc*
+
+1. Intro `..................` |placeholder-intro|
+2. Creating Mappings `......` |placeholder-mappings|
+3. Changing Placeholder `...` |placeholder-text|
+4. Example Vimrc `..........` |placeholder-example-vimrc|
+
+Last change: 09 September 2020
+
+==============================================================================
+1. Intro                                                   *placeholder-intro*
+
+Have you ever wanted to insert something into your buffer at a later time? Me
+too. A trivial approach might be to go into normal mode, make a mark, keep
+typing, and force yourself to remember that ... wait. Which mark did I use?
+
+Luckily, there is a better way! Just drop a placeholder and easily snap to it
+later. This plugin provides the plumbing to easily do that. You just have to
+add a few customizations to your vimrc.
+
+==============================================================================
+2. Creating Mappings                                    *placeholder-mappings*
+
+There are, effectively, three mappings. You should map <plug>(placeholder) in
+insert mode to insert a placeholder in insert mode. Also, you should map all
+the modes (insert, normal, visual, operator-pending modes) for
+<plug>(placeholderPrev) and <plug>(placeholderNext).
+
+   
+  RHS                      Description              Help~
+<plug>(placeholder)      Inserts a placeholder    |placeholder-inserting|
+<plug>(placeholderPrev)  Select prev placeholder  |placeholder-jumping|
+<plug>(placeholderNext)  Select next placeholder  |placeholder-jumping|
+
+------------------------------------------------------------------------------
+                                                       *placeholder-inserting*
+
+In order to insert a placleholder automatically, you should use |:imap| to
+bind a mapping of your choosing. For example, to bind i_CTRL-L: >
+
+    imap <c-l> <plug>(placeholder)
+
+See |placeholder-example-config| for how I use meta mappings.
+
+------------------------------------------------------------------------------
+                                                         *placeholder-jumping*
+
+For both "prev" and "next", you should create at least insert, normal, and
+visual mappings (but you should also have operator-pending mappinigs). Here
+are some example using CTRL-G to select the prev and CTRL-H to select the next
+placeholder: >
+
+    imap <c-g> <esc>c<plug>(placeholderPrev)
+    nmap <c-g> c<plug>(placeholderPrev)
+    xmap <c-g> <plug>(placeholderPrev)
+    omap <c-g> <plug>(placeholderPrev)
+
+    imap <c-h> <esc>c<plug>(placeholderNext)
+    nmap <c-h> c<plug>(placeholderNext)
+    xmap <c-h> <plug>(placeholderNext)
+    omap <c-h> <plug>(placeholderNext)
+
+See |placeholder-example-config| for how I use meta mappings.
+
+==============================================================================
+3. Text                                                     *placeholder-text*
+
+You can also easily change the placeholder text per buffer or globally. To
+change it globally to "<(P)>", for example: >
+
+    let g:placeholder#text = '<(P)>'
+
+In order to chage it just for a buffer: >
+
+    let b:placeholder = '<(P)>'
+
+Use any sort of autocmd to automatically set this up (eg, in a |FileType|
+autocmd).
+
+==============================================================================
+4. Example Vimrc                                               *example-vimrc*
+
+In order to preserve builtin mappings (esp. in insert mode), I use a config
+similar to this in order to use meta modifiers (even in terminal vim!). >
+
+    if !has('nvim') && !has('gui_running')
+        " allow M-h, M-l, and M-; to be mapped properly in term vim
+        exe "set <m-h>=\<esc>h"
+        exe "set <m-l>=\<esc>l"
+        exe "set <m-;>=\<esc>;"
+
+        if exists(':tnoremap')
+            " fix above maps in terminal mode
+            tnoremap <m-h> <esc>h
+            tnoremap <m-l> <esc>l
+            tnoremap <m-;> <esc>;
+        endif
+    endif
+
+    " M-h  =>  select prev placeholder
+    imap <m-h> <esc>c<plug>(placeholderPrev)
+    nmap <m-h> c<plug>(placeholderPrev)
+    xmap <m-h> <plug>(placeholderPrev)
+    omap <m-h> <plug>(placeholderPrev)
+
+    " M-l  =>  select next placeholder
+    imap <m-l> <esc>c<plug>(placeholderNext)
+    nmap <m-l> c<plug>(placeholderNext)
+    xmap <m-l> <plug>(placeholderNext)
+    omap <m-l> <plug>(placeholderNext)
+
+    " M-;  =>  insert placeholder
+    imap <m-;> <plug>(placeholder)
+
+==============================================================================
+                                                      *placeholder-smile-more*
+                            oooo$$$$$$$$$$$$oooo                             ~
+                        oo$$$$$$$$$$$$$$$$$$$$$$$$o                          ~
+                     oo$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o         o$   $$ o$    ~
+     o $ oo        o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o       $$ $$ $$o$   ~
+  oo $ $ "$      o$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$o       $$$o$$o$    ~
+  "$$$$$$o$     o$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$o    $$$$$$$$     ~
+    $$$$$$$    $$$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$$$$$$$$$$$$$$     ~
+    $$$$$$$$$$$$$$$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$$$$$$  """$$$       ~
+     "$$$""""$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     "$$$      ~
+      $$$   o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     "$$$o    ~
+     o$$"   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$o   ~
+     $$$    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" "$$$$$$ooooo$$$$o ~
+    o$$$oooo$$$$$  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   o$$$$$$$$$$$$$$$$$~
+    $$$$$$$$"$$$$   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     $$$$""""""""      ~
+   """"       $$$$    "$$$$$$$$$$$$$$$$$$$$$$$$$$$$"      o$$$               ~
+              "$$$o     """$$$$$$$$$$$$$$$$$$"$$"         $$$                ~
+                $$$o          "$$""$$$$$$""""           o$$$                 ~
+                 $$$$o                                o$$$"                  ~
+                  "$$$$o      o$$$$$$o"$$$$o        o$$$$                    ~
+                    "$$$$$oo     ""$$$$o$$$$$o   o$$$$""                     ~
+                       ""$$$$$oooo  "$$$o$$$$$$$$$"""                        ~
+                          ""$$$$$$$oo $$$$$$$$$$                             ~
+                                  """"$$$$$$$$$$$                            ~
+                                      $$$$$$$$$$$$                           ~
+                                       $$$$$$$$$$"                           ~
+                                        "$$$""""                             ~
+
+Don't forget to type |:smile| at least once a month. >
+
+                                            vim: set tw=78 et ft=help norl ai:

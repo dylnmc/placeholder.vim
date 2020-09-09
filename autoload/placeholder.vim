@@ -1,5 +1,7 @@
 
-let g:placeholder#text = '{@}'
+if !exists('g:placeholder#text')
+    let g:placeholder#text = '{@}'
+endif
 
 " get placeholder from buffer context if defined;
 " else get placeholder from global context if defined;
