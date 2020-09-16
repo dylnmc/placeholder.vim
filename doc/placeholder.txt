@@ -17,7 +17,7 @@ Placeholder Table of Contents                                *placeholder-toc*
 3. Changing Placeholder `...` |placeholder-text|
 4. Example Vimrc `..........` |placeholder-example-vimrc|
 
-Last change: 09 September 2020
+Last change: 16 September 2020
 
 ==============================================================================
 1. Intro                                                   *placeholder-intro*
@@ -58,16 +58,17 @@ See |placeholder-example-config| for how I use meta mappings.
                                                          *placeholder-jumping*
 
 For both "prev" and "next", you should create at least insert, normal, and
-visual mappings (but you should also have operator-pending mappinigs). Here
-are some example using CTRL-G to select the prev and CTRL-H to select the next
-placeholder: >
+visual mappings (but you should also have operator-pending mappinigs). I do
+not recommend overwriting CTRL-G and CTRL-H, but here are some example
+mappings that show off how the mapping is achieved and that use CTRL-G to
+select the prev and CTRL-H to select the next placeholder: >
 
-    imap <c-g> <esc>c<plug>(placeholderPrev)
+    imap <c-g> <c-g>u<esc>c<plug>(placeholderPrev)
     nmap <c-g> c<plug>(placeholderPrev)
     xmap <c-g> <plug>(placeholderPrev)
     omap <c-g> <plug>(placeholderPrev)
 
-    imap <c-h> <esc>c<plug>(placeholderNext)
+    imap <c-h> <c-g>u<esc>c<plug>(placeholderNext)
     nmap <c-h> c<plug>(placeholderNext)
     xmap <c-h> <plug>(placeholderNext)
     omap <c-h> <plug>(placeholderNext)

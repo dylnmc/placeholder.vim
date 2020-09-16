@@ -31,13 +31,13 @@ if !has('nvim') && !has('gui_running')
 endif
 
 " M-h  =>  select prev placeholder
-imap <m-h> <esc>c<plug>(placeholderPrev)
+imap <m-h> <c-g>u<esc>c<plug>(placeholderPrev)
 nmap <m-h> c<plug>(placeholderPrev)
 xmap <m-h> <plug>(placeholderPrev)
 omap <m-h> <plug>(placeholderPrev)
 
 " M-l  =>  select next placeholder
-imap <m-l> <esc>c<plug>(placeholderNext)
+imap <m-l> <c-g>u<esc>c<plug>(placeholderNext)
 nmap <m-l> c<plug>(placeholderNext)
 xmap <m-l> <plug>(placeholderNext)
 omap <m-l> <plug>(placeholderNext)
